@@ -108,7 +108,7 @@ public class AbsenFrame extends JFrame implements AbsenService {
                             JOptionPane.showMessageDialog(null, "Absensi berhasil");
                             jlStatusAbsent.setText("status:" + validAbsent.showAbsent()
                                     + "name: " + user.getNama()
-                                    + "nim: " + user.getTelfon()
+                                    + "phone: " + user.getTelfon()
                                     + "start class " + absent.getAbsenin()
                                     + "end class" + absent.getAbsenout());
                             jbAbsent.setVisible(false);
