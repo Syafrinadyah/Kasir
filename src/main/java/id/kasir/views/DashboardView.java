@@ -4,36 +4,42 @@
  * and open the template in the editor.
  */
 package id.kasir.app.view;
-
+import java.awt.Color;
 import javax.swing.*;
-import java.awt.Image;
 import java.awt.*;
 import java.awt.event.*;
-/**
- *
- * @author LaptopKU
- */
-public class DashboardView extends JFrame{
-     JMenu menu;  
-          JMenuItem i1, i2, i3;  
-          DashboardView(){  
-          JFrame f= new JFrame("TOKO SERBA ADA");  
-          JMenuBar mb=new JMenuBar();  
-          menu=new JMenu("Menu");   
-          i1=new JMenuItem("Absen");  
-          i2=new JMenuItem("Pembayaran");  
-          i3=new JMenuItem("Laporan");  
-          
-          //image.setBackground 
-          menu.add(i1); menu.add(i2); menu.add(i3);   
-          mb.add(menu);  
-          f.setJMenuBar(mb);  
-          f.setSize(400,400);  
-          f.setLayout(null);  
-          f.setVisible(true); 
-     }
-  public static void main(String args[])  {  
-  new DashboardView(); 
+
+
+public class DashboardView extends JFrame {
+    
+    static JFrame frame = new JFrame();
+    static JLabel lbJudul = new JLabel("Menu Utama");
+    static JButton btAbsent = new JButton("Absen");
+    static JButton btPayment = new JButton("Pembayaran");
+    static JButton btInventori = new JButton("Inventori");
+    
+static void initView(){
+   frame.setSize(500, 350);
+   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   frame.setLocationRelativeTo(null);
+   frame.setVisible(true);
+   frame.setLayout(null);
+   frame.setBackground(new Color(0, 80, 239));
+   
+   frame.add(lbJudul);
+   frame.add(btAbsent);
+   frame.add(btPayment);
+   frame.add(btInventori);
+   
+   lbJudul.setBounds(140, 40, 250, 30);
+   lbJudul.setFont(new java.awt.Font("Tohama", 1, 26));
+   btAbsent.setBounds(80, 150, 120, 30);
+   btPayment.setBounds(80, 100, 120, 30);
+   btInventori.setBounds(80, 200, 120, 30);
+}
+    
+public static void main (String []args){  
+     initView();   
 
 }
 }

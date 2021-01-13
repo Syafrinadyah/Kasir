@@ -9,6 +9,7 @@ import id.kasir.app.core.ConfigDb;
 import id.kasir.app.core.MySQL;
 import id.kasir.app.models.Productpost;
 import id.kasir.app.core.ProductService;
+import java.awt.Component;
 import javax.swing.*;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +27,6 @@ import java.util.List;
  */
 public class ProductView {
 //mendeklarasikan objek frame atau tampilan, button, label, textfield
-
     static JFrame frame = new JFrame();
     static JLabel lbJudul = new JLabel("Produk");
     static JLabel lbCode = new JLabel("Code");
@@ -37,34 +37,27 @@ public class ProductView {
     static JButton btnUpdate = new JButton("Update");
     static JButton btnDelete = new JButton("Delete");
     static JButton btnTambah = new JButton("Tambah");
-
-    //membuat dan memanggil jLabel baru dengan objek
     static JTextField txtCode = new JTextField();
     static JTextField txtName = new JTextField();
     static JTextField txtPrice = new JTextField();
     static JTextField txtStock = new JTextField();
 
-    public static void main(String[] args) {
-
-        Frame();
-
-        Table();
-
-        Update();
-
-        Delete();
-
-        Tambah();
-    }
-
+    //membuat prosedur layout pada frame
     static void Frame() {
+        //memberikan judul pada tampilan frame
         frame.setTitle("Produk");
+        //menentukan ukuran menu tampilan
         frame.setSize(700, 700);
+        //untuk membuat tampilan frame berada di tengah layar
         frame.setLocationRelativeTo(null);
+        //untuk menampilkan tombol close
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //untuk menampilkan tampilan frame agar muncul ke layar saat di jalankan 
         frame.setVisible(true);
+        //untuk mengatur tampilan pada frame
         frame.setLayout(null);
 
+        // menambahkan objek label judul,code,name,price,stock,tabel barang, update, delete, tambah pada frame tampilan
         frame.add(lbJudul);
         frame.add(lbCode);
         frame.add(lbName);
@@ -75,11 +68,13 @@ public class ProductView {
         frame.add(btnDelete);
         frame.add(btnTambah);
 
+         // menambahkan objek text code,name,price,stock pada frame tampilan
         frame.add(txtCode);
         frame.add(txtName);
         frame.add(txtPrice);
         frame.add(txtStock);
 
+        // mengatur letak dan ukuran dari label judul,code, name,price, stock, update, delete, tambah
         lbJudul.setBounds(330, 25, 100, 40);
         lbJudul.setFont(new java.awt.Font("Tohama", 1, 20));
         lbCode.setBounds(60, 80, 160, 30);
@@ -91,6 +86,7 @@ public class ProductView {
         btnDelete.setBounds(300, 550, 100, 20);
         btnTambah.setBounds(500, 550, 100, 20);
 
+        // mengatur letak dan ukuran dari text code, name, price, stock
         txtCode.setBounds(240, 80, 160, 30);
         txtName.setBounds(240, 120, 160, 30);
         txtPrice.setBounds(240, 160, 160, 30);
@@ -102,11 +98,13 @@ public class ProductView {
 
         DefaultTableModel model = new DefaultTableModel();
         tabelbarang.setModel(model);
-        model.addColumn("Code");
-        model.addColumn("Name");
-        model.addColumn("Price");
-        model.addColumn("Stock");
-
+        Object[] columns = new Object[4];
+        columns[0] = "Code";
+        columns[1] = "Name";
+        columns[2] = "Price";
+        columns[3] = "Stock";
+        model.setColumnIdentifiers(columns);
+       
         ProductService service = new ProductService();
         List<Productpost> products = service.selectBarang();
 
@@ -117,25 +115,27 @@ public class ProductView {
             obj[2] = product.getPrice();
             obj[3] = product.getStock();
             model.addRow(obj);
+            
         }
-        tabelbarang.setModel(model);
+        tabelbarang.setModel(model);        
     }
-
+    //untuk button update
     static void Update() {
+        //melakukan eksekusi
         btnUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-
+                //menginput baris pada tabel
                 int selectedRow = tabelbarang.getSelectedRow();
                 String Code = (String) tabelbarang.getValueAt(selectedRow, 0);
                 String Name = (String) tabelbarang.getValueAt(selectedRow, 1);
-                String Price = (String) tabelbarang.getValueAt(selectedRow, 2);
-                Integer stock = (Integer) tabelbarang.getValueAt(selectedRow, 3);
+                String Price = tabelbarang.getValueAt(selectedRow, 2).toString();
+                String Stock = tabelbarang.getValueAt(selectedRow, 3).toString();
 
                 Productpost productpost = new Productpost();
                 productpost.setCode(Code);
                 productpost.setName(Name);
                 productpost.setPrice(Integer.parseInt(Price));
-                productpost.setStock(stock);
+                productpost.setStock(Integer.parseInt(Stock));
                 
                 ProductService service = new ProductService();
                 boolean update = service.updateBarang(productpost);
@@ -149,14 +149,17 @@ public class ProductView {
             }
         });
     }
-
+    //untuk button delete
     static void Delete() {
+        //melakukan eksekusi
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+                //menginput baris pada tabel
                 int selectedRow = tabelbarang.getSelectedRow();
                 String Code = (String) tabelbarang.getValueAt(selectedRow, 0);
-
+                //memanggil fungsi set pada product post
                 ProductService service = new ProductService();
+                //memanggil delete barang pada product service
                 Productpost productpost = new Productpost();
                 productpost.setCode(Code);
                 boolean delete = service.deleteBarang(productpost);
@@ -173,17 +176,20 @@ public class ProductView {
         });
     }
 
+    //untuk button tambah
     static void Tambah() {
+        //melakukan eksekusi
         btnTambah.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String Code = txtCode.getText().toString();
 
+                //memanggil fungsi set pada product post
                 Productpost Productpost = new Productpost();
                 Productpost.setCode(txtCode.getText());
                 Productpost.setName(txtName.getText());
                 Productpost.setPrice(Integer.parseInt(txtPrice.getText()));
                 Productpost.setStock(Integer.parseInt(txtStock.getText()));
-
+                //memanggil insert barang pada product service
                 ProductService service = new ProductService();
                 boolean tambah = service.insertBarang(Productpost);
 
@@ -195,6 +201,18 @@ public class ProductView {
                 }
             }
         });
+    }
+     public static void main(String[] args) {
+        //mengeksekusi frame
+        Frame();
+        //mengeksekusi tabel
+        Table();
+        //mengeksekusi button update
+        Update();
+        //mengeksekusi button delete
+        Delete();
+        //mengeksekusi button tambah
+        Tambah();
     }
 
 }
