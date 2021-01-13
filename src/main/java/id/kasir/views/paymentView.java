@@ -98,9 +98,6 @@ public class paymentView extends JFrame {
         nameLabel.setBounds(425, 330, 100, 30);
         panel.add(nameLabel);
 
-//        nameText = new JTextField(20);
-//        nameText.setBounds(545, 330, 175, 30);
-//        panel.add(nameText);
 
         // LABEL DAN TEXTFIELD TAGIHAN
         billLabel = new JLabel("Tagihan");
