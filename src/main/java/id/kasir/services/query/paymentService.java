@@ -52,4 +52,31 @@ public class paymentService extends configDatabase {
 
         return products;
     }
+    
+    public productModel getByName(String name) {
+        paymentService.createConnection();
+        productModel product = null;
+
+        String sql = "SELECT * from barang WHERE name = '%s'";
+        sql = String.format(sql, name);
+
+        try {
+            Statement stmt = paymentService.con.createStatement();
+            ResultSet result = stmt.executeQuery(sql);
+
+            if (result.next()) {
+                product = new productModel();
+                product.setCode(result.getString("idBarang"));
+                product.setName(result.getString("name"));
+                product.setPrice(result.getInt("price"));
+                product.setStock(result.getInt("Stock"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.status = false;
+            this.errorMessage = e.getMessage();
+        }
+
+        return product;
+    }
 }
